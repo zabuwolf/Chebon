@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3e5f53">
+<meta name="robots" content="noindex">
+<title>Bon · Quản lý quán</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin">
+
+<!-- Login -->
+<main id="login" class="welcome" hidden>
+  <div class="hero">
+    <img src="logo.svg" alt="Bon">
+    <h1>Quản lý quán</h1>
+    <p>Đăng nhập để nhận đơn và xem doanh thu.</p>
+  </div>
+  <form class="card" id="login-form" style="padding:20px 18px">
+    <div class="field">
+      <label for="f-pass">Mật khẩu</label>
+      <input class="input" id="f-pass" type="password" autocomplete="current-password" required>
+    </div>
+    <p class="error" id="login-error"></p>
+    <button class="btn block" type="submit">Đăng nhập</button>
+  </form>
+</main>
+
+<!-- App -->
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="brand"><img class="logo" src="logo.svg" alt="Bon"><small>QUẢN LÝ</small></div>
+    <span class="live" id="live" title="Kết nối thời gian thực"><i></i><span>Đang kết nối</span></span>
+    <div class="spacer"></div>
+    <button class="pill" id="sound-btn">🔔 Bật chuông</button>
+    <button class="pill" id="logout">Thoát</button>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="orders" class="active"><span class="ico">🧾</span>Đơn hàng<span class="count" id="tab-new-count" hidden></span></button>
+    <button data-tab="stats"><span class="ico">📈</span>Doanh thu</button>
+    <button data-tab="menu"><span class="ico">🍧</span>Thực đơn</button>
+    <button data-tab="qr"><span class="ico">🔳</span>Mã QR</button>
+  </nav>
+
+  <!-- Orders -->
+  <section class="view" id="view-orders">
+    <div class="today" id="today-summary"></div>
+    <div class="filters" id="order-filters"></div>
+    <div id="order-list"></div>
+  </section>
+
+  <!-- Revenue -->
+  <section class="view" id="view-stats" hidden>
+    <div class="filters" id="range-presets">
+      <button class="chip active" data-range="today">Hôm nay</button>
+      <button class="chip" data-range="yesterday">Hôm qua</button>
+      <button class="chip" data-range="7d">7 ngày</button>
+      <button class="chip" data-range="month">Tháng này</button>
+      <button class="chip" data-range="lastmonth">Tháng trước</button>
+    </div>
+    <div class="range-custom">
+      <input class="input" type="date" id="r-from" aria-label="Từ ngày">
+      <span>→</span>
+      <input class="input" type="date" id="r-to" aria-label="Đến ngày">
+    </div>
+    <div class="tiles" id="stat-tiles"></div>
+    <div class="card panel" id="chart-panel">
+      <h3>Doanh thu theo ngày</h3>
+      <div class="chart" id="chart"></div>
+    </div>
+    <div class="card panel">
+      <h3>Món bán chạy</h3>
+      <table class="table" id="top-items"></table>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="view" id="view-menu" hidden>
+    <p class="hint">Bấm vào giá hoặc tên để sửa — tự lưu khi bạn bấm ra ngoài. Gạt công tắc để báo <b>hết món</b>.</p>
+    <div id="menu-admin"></div>
+  </section>
+
+  <!-- QR -->
+  <section class="view" id="view-qr" hidden>
+    <div class="card panel no-print">
+      <h3>In mã QR cho từng bàn</h3>
+      <p class="hint" style="margin:6px 0 12px">Khách quét mã của bàn nào thì đơn sẽ tự ghi số bàn đó. Mã "Mang về" không có số bàn.</p>
+      <div class="qr-form">
+        <label for="qr-count">Số bàn</label>
+        <input class="input" id="qr-count" type="number" min="1" max="60" value="10">
+        <button class="btn" id="qr-print">🖨 In mã QR</button>
+      </div>
+      <p class="warn" id="qr-warn" hidden></p>
+      <p class="hint" id="qr-base"></p>
+    </div>
+    <div class="qr-grid" id="qr-grid"></div>
+  </section>
+</div>
+
+<!-- Table bill -->
+<div class="sheet-backdrop" id="backdrop"></div>
+<section class="sheet" id="bill-sheet" role="dialog" aria-modal="true" aria-labelledby="bill-title">
+  <header><h2 id="bill-title">Tính tiền</h2><button class="close" data-close aria-label="Đóng">✕</button></header>
+  <div class="body" id="bill-body"></div>
+  <footer>
+    <div class="total-row"><span>Khách cần trả</span><strong id="bill-total">0đ</strong></div>
+    <button class="btn block" id="bill-pay">Đã thu tiền</button>
+  </footer>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="chart-tip" id="chart-tip" hidden></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

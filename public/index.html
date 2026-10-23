@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3e5f53">
+<title>Bon · Chè & Tào Phớ</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="logo" src="logo.svg" alt="Bon">
+    <small>CHÈ &amp; TÀO PHỚ</small>
+  </div>
+  <div class="spacer"></div>
+  <span class="pill" id="table-pill" hidden></span>
+  <button class="pill" id="orders-btn" hidden>Đơn của tôi <span class="count" id="orders-count">0</span></button>
+</header>
+
+<!-- Step 1: who is ordering -->
+<main id="welcome" class="welcome" hidden>
+  <div class="hero">
+    <img src="logo.svg" alt="Bon">
+    <h1>Chào bạn, mời gọi món nhé!</h1>
+    <p>Nhập tên và số điện thoại để quán tiện gọi khi món xong.</p>
+    <span class="table-tag" id="welcome-table" hidden></span>
+  </div>
+  <form class="card" id="welcome-form" novalidate>
+    <div class="field">
+      <label for="f-name">Tên của bạn</label>
+      <input class="input" id="f-name" autocomplete="name" maxlength="40" placeholder="VD: Lan" required>
+    </div>
+    <div class="field">
+      <label for="f-phone">Số điện thoại</label>
+      <input class="input" id="f-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="15" placeholder="VD: 0912 345 678" required>
+    </div>
+    <div class="field" id="f-table-field">
+      <label for="f-table">Số bàn <span style="font-weight:500">(để trống nếu mang về)</span></label>
+      <input class="input" id="f-table" inputmode="numeric" maxlength="10" placeholder="VD: 5">
+    </div>
+    <p class="error" id="welcome-error"></p>
+    <button class="btn block" type="submit">Xem thực đơn</button>
+  </form>
+</main>
+
+<!-- Step 2: menu -->
+<div id="shop" hidden>
+  <div class="hello">
+    <span>Xin chào, <b id="hello-name"></b></span>
+    <button class="linkbtn" id="edit-info">Đổi thông tin</button>
+  </div>
+  <nav class="cats" id="cats" aria-label="Nhóm món"></nav>
+  <main class="menu" id="menu"><p class="empty">Đang tải thực đơn…</p></main>
+
+  <div class="cartbar" id="cartbar" hidden>
+    <button class="btn" id="open-cart">
+      <span><span class="qty-badge" id="cart-qty">0</span>&nbsp; Xem giỏ hàng</span>
+      <span id="cart-total">0đ</span>
+    </button>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="backdrop"></div>
+
+<!-- Cart -->
+<section class="sheet" id="cart-sheet" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+  <header><h2 id="cart-title">Giỏ hàng</h2><button class="close" data-close aria-label="Đóng">✕</button></header>
+  <div class="body">
+    <div id="cart-lines"></div>
+    <div class="field" style="margin-top:14px">
+      <label for="f-note">Ghi chú cho quán</label>
+      <textarea class="input" id="f-note" maxlength="200" placeholder="VD: ít đá, không lấy ngô…"></textarea>
+    </div>
+    <p class="meta" id="cart-who" style="color:var(--muted);font-size:14px;margin:0"></p>
+  </div>
+  <footer>
+    <div class="total-row"><span>Tổng cộng</span><strong id="cart-sum">0đ</strong></div>
+    <p class="error" id="cart-error"></p>
+    <button class="btn block" id="place-order">Đặt món</button>
+  </footer>
+</section>
+
+<!-- My orders -->
+<section class="sheet" id="orders-sheet" role="dialog" aria-modal="true" aria-labelledby="orders-title">
+  <header><h2 id="orders-title">Đơn của tôi</h2><button class="close" data-close aria-label="Đóng">✕</button></header>
+  <div class="body" id="orders-list"></div>
+  <footer><button class="btn block soft" data-close>Gọi thêm món</button></footer>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
